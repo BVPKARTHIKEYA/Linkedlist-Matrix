@@ -1,0 +1,44 @@
+vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+    vector<vector<int>> matrix(m, vector<int>(n, -1));  // Initialize matrix with -1
+    int srow = 0;  // Start row
+    int erow = m - 1;  // End row
+    int scol = 0;  // Start column
+    int ecol = n - 1;  // End column
+    ListNode *curr = head;
+
+    while (srow <= erow && scol <= ecol && curr != nullptr) {
+        // Filling the top row (left to right)
+        for (int i = scol; i <= ecol && curr != nullptr; i++) {
+            matrix[srow][i] = curr->val;
+            curr = curr->next;
+        }
+        srow++;  // Move start row down
+
+        // Filling the rightmost column (top to bottom)
+        for (int i = srow; i <= erow && curr != nullptr; i++) {
+            matrix[i][ecol] = curr->val;
+            curr = curr->next;
+        }
+        ecol--;  // Move end column left
+
+        // Filling the bottom row (right to left)
+        if (srow <= erow) {
+            for (int i = ecol; i >= scol && curr != nullptr; i--) {
+                matrix[erow][i] = curr->val;
+                curr = curr->next;
+            }
+            erow--;  // Move end row up
+        }
+
+        // Filling the leftmost column (bottom to top)
+        if (scol <= ecol) {
+            for (int i = erow; i >= srow && curr != nullptr; i--) {
+                matrix[i][scol] = curr->val;  
+                curr = curr->next;
+            }
+            scol++;  // Move start column right
+        }
+    }
+
+    return matrix;
+}
